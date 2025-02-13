@@ -1,0 +1,47 @@
+server:
+  port: 5003
+
+spring:
+  application:
+    name: module-service-datacollection
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/getrand?serverTimezone=Asia/Seoul
+    username: mytest
+    password: 1234
+
+  jpa:
+    show-sql: true
+    hibernate:
+      #      ddl-auto: create
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+#  instance:
+#    # 2??? ????? ???? ??? ??? ??? ??
+#    lease-expiration-duration-in-seconds: 2
+
+serp:
+  api-key: 5f4cb96914761a3ef1df9f0ec2f4961edf20fb13b64d0ee68dc3ec9b0a18889f
+
+logging:
+  level:
+    org:
+      hibernate:
+        sql: debug
+        type:
+          descriptor:
+            sql: trace
+
+schedule:
+  cron: 00 00 10 * * 1
+  use: true

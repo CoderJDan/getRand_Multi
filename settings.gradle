@@ -1,0 +1,8 @@
+rootProject.name = 'getRand'
+include 'module-core'
+include 'module-server'
+include 'module-gateway'
+include 'module-service-datacollection'
+include 'module-service-analystic'
+include 'module-service-user'
+include 'module-service-front'
