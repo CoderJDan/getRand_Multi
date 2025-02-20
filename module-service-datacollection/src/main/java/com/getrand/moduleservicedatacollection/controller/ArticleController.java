@@ -26,4 +26,10 @@ public class ArticleController {
     public ResponseEntity<List<ArticleDocument>> searchSimilarArticles(@RequestParam String text) {
         return ResponseEntity.ok(articleService.searchMoreLikeThis(text));
     }
+
+    @GetMapping("/search/all")
+    public ResponseEntity<List<ArticleDocument>> getAllArticles() {
+        List<ArticleDocument> articles = articleService.findAllArticles();
+        return ResponseEntity.ok(articles);
+    }
 }

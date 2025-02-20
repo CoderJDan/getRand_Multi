@@ -12,6 +12,7 @@ import co.elastic.clients.elasticsearch._types.query_dsl.MoreLikeThisQuery;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,12 @@ public class ArticleService {
      * param article 저장할 문서 객체
      * return 저장된 ArticleDocument 객체
      */
+
+    public List<ArticleDocument> findAllArticles() {
+        Iterable<ArticleDocument> articles = articleRepository.findAll();
+        return StreamSupport.stream(articles.spliterator(), false)
+                .collect(Collectors.toList());
+    }
 
     public ArticleDocument saveArticle(ArticleDocument article) {
         return articleRepository.save(article);

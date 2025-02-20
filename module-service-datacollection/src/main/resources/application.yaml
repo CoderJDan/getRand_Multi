@@ -11,15 +11,16 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/getrand?serverTimezone=Asia/Seoul
-    username: root
-    password: sangyeop123
+    username: mytest
+    password: 1234
   data:
     mongodb:
-      uri: mongodb://localhost:27017/newsDB
+      uri: mongodb+srv://coderjangdaniel:<db_password>@devpulse.hvxwb.mongodb.net/?retryWrites=true&w=majority&appName=devpulse
+      database: devpulse
     elasticsearch:
       uris: http://localhost:9200
-      username: elastic
-      password: sangyeop123
+#      username: elastic
+#      password: sangyeop123
   jpa:
     show-sql: true
     hibernate:
