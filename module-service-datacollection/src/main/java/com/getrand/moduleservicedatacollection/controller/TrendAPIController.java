@@ -1,10 +1,13 @@
 package com.getrand.moduleservicedatacollection.controller;
 
+import com.getrand.moduleservicedatacollection.dto.DefaultPastOYResponseDTO;
 import com.getrand.moduleservicedatacollection.service.TrendService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/google")
@@ -33,5 +36,9 @@ public class TrendAPIController {
     public String relatedTopics() {
         service.fetchRelatedTopics();
         return "ok";
+    }
+    @GetMapping("/defaultPastOY/findAll")
+    public List<DefaultPastOYResponseDTO> getDefaultTrendYearData(){
+        return service.pastOneYearFindAll();
     }
 }

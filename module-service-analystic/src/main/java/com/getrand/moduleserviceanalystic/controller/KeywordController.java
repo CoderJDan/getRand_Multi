@@ -14,8 +14,10 @@ public class KeywordController {
     @ResponseBody
     public String callKeywordAPI(@RequestParam("keyword") String query) {
         trendService.pastOneYear(query);
+        //trendService.fetchRelatedQueries(query);
         trendService.fetchRelatedQueries(query);
-        trendService.fetchRelatedQueries(query);
+        //defaultTrending
+
         return "OK";
     }
 }

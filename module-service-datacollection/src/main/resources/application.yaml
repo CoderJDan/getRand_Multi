@@ -2,18 +2,28 @@ server:
   port: 5003
 
 spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: news-group
   application:
     name: module-service-datacollection
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/getrand?serverTimezone=Asia/Seoul
-    username: mytest
-    password: 1234
-
+    username: root
+    password: sangyeop123
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/newsDB
+    elasticsearch:
+      uris: http://localhost:9200
+      username: elastic
+      password: sangyeop123
   jpa:
     show-sql: true
     hibernate:
-      #      ddl-auto: create
+      #ddl-auto: create
       ddl-auto: none
     properties:
       hibernate:
@@ -26,9 +36,9 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
-#  instance:
-#    # 2??? ????? ???? ??? ??? ??? ??
-#    lease-expiration-duration-in-seconds: 2
+  # instance:
+  #   # 2초마다 하트비트 체크하도록 수정
+  #   lease-expiration-duration-in-seconds: 2
 
 serp:
   api-key: 5f4cb96914761a3ef1df9f0ec2f4961edf20fb13b64d0ee68dc3ec9b0a18889f

@@ -2,13 +2,11 @@ package com.getrand.moduleservicedatacollection.service;
 
 import com.getrand.moduleservicedatacollection.dao.TrendDAO;
 import com.getrand.moduleservicedatacollection.dto.*;
-import com.getrand.moduleservicedatacollection.entity.DefaultPastOYEntity;
-import com.getrand.moduleservicedatacollection.entity.RealTimeTrendEntity;
-import com.getrand.moduleservicedatacollection.entity.RelatedQueriesEntity;
-import com.getrand.moduleservicedatacollection.entity.RelatedTopicsEntity;
+import com.getrand.moduleservicedatacollection.entity.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.getrand.moduleservicedatacollection.repository.DefaultPastOYMongoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,6 +21,7 @@ public class TrendServiceImpl implements TrendService {
     private final TrendAPIService apiService;
     private final TrendDAO dao;
     private final ObjectMapper mapper;
+    private final DefaultPastOYMongoRepository mongoRepository;
     @Value("${serp.api-key}")
     private String apiKey;
 
@@ -35,20 +34,26 @@ public class TrendServiceImpl implements TrendService {
             System.out.println(timelineData);
 
             List<DefaultPastOYEntity> defaultTrending = new ArrayList<>();
-
+            List<DefaultPastOYMongoEntity> mongoTrending = new ArrayList<>();
             if (timelineData != null && timelineData.isArray()) { // timelineData가 배열인지 확인
                 for (JsonNode node : timelineData) {
                     // defaultTrendMonthsDTO 객체 생성
-                    DefaultPastOYEntity dto = new DefaultPastOYEntity();
-                    dto.setDate(node.get("date").asText());
+                    //여기는 Sql용 엔티티
+                    DefaultPastOYEntity sqlEntity = new DefaultPastOYEntity();
+                    sqlEntity.setDate(node.get("date").asText());
                     JsonNode values = node.path("values").get(0);
                     if(values != null) {
-                        dto.setValue(values.get("value").asText());
+                        sqlEntity.setValue(values.get("value").asText());
                     }
-                    defaultTrending.add(dto);
+                    defaultTrending.add(sqlEntity);
+                    DefaultPastOYMongoEntity mongoEntity = new DefaultPastOYMongoEntity();
+                    mongoEntity.setDate(sqlEntity.getDate());
+                    mongoEntity.setValue(sqlEntity.getValue());
+                    mongoTrending.add(mongoEntity);
                 }
             }
             dao.insertDOY(defaultTrending);
+            mongoRepository.saveAll(mongoTrending);
 
         } catch (JsonProcessingException e) { // readTree 예외 처리
             throw new RuntimeException(e);
